@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link href="/src/styles.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculatrice</title>
+  </head>
+  <body class="bg-gray-700 text-white">
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+
+    <nav class="bg-gray-800 text-white w-full fixed top-0 left-0 shadow-lg">
+      <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+        <a href="#" class="text-2xl font-bold text-orange-400">Calculatrice</a>
+        <ul class="flex space-x-6">
+          <li><a href="#" class="hover:text-orange-400">Accueil</a></li>
+          <li><a href="#" class="hover:text-orange-400">À propos</a></li>
+          <li><a href="#" class="hover:text-orange-400">Contact</a></li>
+        </ul>
+      </div>
+    </nav>    
+
+    <div class="flex justify-center items-center h-screen">
+      <!-- calculatrice -->
+       <div class="bg-gray-800 p-5 rounded-lg shadow-lg">
+        <!-- Affichage de la calculatrice -->
+          <div id="display" class=" w-110 p-10 rounded-lg text-white border-1 border-gray-500">
+            <div class="flex justify-end items-center text-6xl h-10 pr-4">0</div>
+          </div>
+          <!-- // grille des boutons -->
+           <div class="flex justify-center">
+              <div id="buttons" class="grid grid-cols-4 gap-8 mt-5 text-3xl">
+                <button class="btn bg-[#4a4544] rounded-full w-16 h-16">AC</button>
+                <button class="btn bg-[#4a4544] rounded-full w-16 h-16">+/-</button>
+                <button class="btn bg-[#4a4544] rounded-full w-16 h-16">%</button>
+                <button class="btn bg-orange-400 rounded-full w-16 h-16">÷</button>
+    
+                <button class="btn bg-[#4a4544] rounded-full w-16 h-16">7</button>
+                <button class="btn bg-[#4a4544] rounded-full w-16 h-16">8</button>
+                <button class="btn bg-[#4a4544] rounded-full w-16 h-16">9</button>
+                <button class="btn bg-orange-400 rounded-full w-16 h-16">×</button>
+    
+                <button class="btn bg-[#4a4544] rounded-full w-16 h-16">4</button>
+                <button class="btn bg-[#4a4544] rounded-full w-16 h-16">5</button>
+                <button class="btn bg-[#4a4544] rounded-full w-16 h-16">6</button>
+                <button class="btn bg-orange-400 rounded-full w-16 h-16">-</button>
+    
+                <button class="btn bg-[#4a4544] rounded-full w-16 h-16">4</button>
+                <button class="btn bg-[#4a4544] rounded-full w-16 h-16">5</button>
+                <button class="btn bg-[#4a4544] rounded-full w-16 h-16">6</button>
+                <button class="btn bg-orange-400 rounded-full w-16 h-16">+</button>
+    
+                <button class="btn bg-[#4a4544] rounded-full w-16 h-16 flex justify-center items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-white">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75h7.5m-7.5 4.5h7.5m-7.5 4.5h7.5m-9 5.25h10.5a2.25 2.25 0 002.25-2.25V5.25A2.25 2.25 0 0016.5 3H7.5A2.25 2.25 0 005.25 5.25v14.25a2.25 2.25 0 002.25 2.25z"/>
+                  </svg>
+                </button>            
+                <button class="btn bg-[#4a4544] rounded-full w-16 h-16">0</button>
+                <button class="btn bg-[#4a4544] rounded-full w-16 h-16">,</button>
+                <button class="btn bg-orange-400 rounded-full w-16 h-16">=</button>
+              </div>
+           </div>
+
+          </div>
+
+    </div>
+  </body>
+</html>
+
+
+
