@@ -29,6 +29,32 @@ function replaceLastNumber(expression, newValue) {
   return expression.replace(/(\d+\.?\d*)$/, newValue);
 }
 
+// Fonction pour animer un effet de secouement avec Tailwind
+const shakeElement = async (element) => {
+  // Sauvegarder la classe de transition actuelle
+  const originalTransition = element.style.transition;
+  
+  // Désactiver temporairement les transitions pour un mouvement immédiat
+  element.style.transition = 'none';
+  
+  // Séquence d'animation de secouement
+  for (let i = 0; i < 6; i++) {
+    if (i % 2 === 0) {
+      element.classList.add('translate-x-2');
+      element.classList.remove('-translate-x-2');
+    } else {
+      element.classList.add('-translate-x-2');
+      element.classList.remove('translate-x-2');
+    }
+    // Attendre un court délai entre chaque mouvement
+    await new Promise(resolve => setTimeout(resolve, 50));
+  }
+  
+  // Restaurer la position et les transitions
+  element.classList.remove('translate-x-2', '-translate-x-2');
+  element.style.transition = originalTransition;
+};
+
 // Fonction pour gérer les erreurs de calcul
 const handleCalculationError = (errorMessage) => {
   console.error("Erreur de calcul:", errorMessage);
@@ -38,11 +64,17 @@ const handleCalculationError = (errorMessage) => {
   // Changer le bouton en AC
   acButton.textContent = 'AC';
   
-  // Ajouter et retirer la classe pour déclencher l'animation
-  display.classList.add('error-shake');
-  setTimeout(() => {
-    display.classList.remove('error-shake');
-  }, 500);
+  // Ajouter une classe de couleur rouge pour l'erreur
+  display.classList.add('text-red-500');
+  
+  // Animer le secouement avec la fonction Tailwind
+  shakeElement(display)
+    .then(() => {
+      // Retirer la classe de couleur rouge après l'animation
+      setTimeout(() => {
+        display.classList.remove('text-red-500');
+      }, 800);
+    });
 };
 
 // Fonction pour calculer le résultat via l'API
