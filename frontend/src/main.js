@@ -12,6 +12,8 @@ let currentExpression = '0';
 // Fonction pour mettre à jour l'affichage
 const updateDisplay = () => {
   display.textContent = currentExpression;
+  // Faire défiler automatiquement vers la droite pour voir la fin de l'expression
+  display.scrollLeft = display.scrollWidth;
 };
 
 // Initialiser l'affichage
@@ -172,4 +174,5 @@ const handleButtonClick = value => {
   
   // Mettre à jour l'affichage
   updateDisplay();
+
 };

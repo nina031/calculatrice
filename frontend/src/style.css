@@ -1,1 +1,20 @@
 @import "tailwindcss";
+
+/* Styles pour la barre de défilement */
+#display div::-webkit-scrollbar {
+  height: 8px; /* Hauteur de la barre de défilement */
+}
+
+#display div::-webkit-scrollbar-track {
+  background: #1f2937; /* Équivalent à bg-gray-800 */
+}
+
+#display div::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.6); /* Gris transparent (équivalent à gray-400 avec 60% d'opacité) */
+  border-radius: 2px;
+}
+
+/* Défilement fluide */
+#display div {
+  scroll-behavior: smooth;
+}
