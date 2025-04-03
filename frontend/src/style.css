@@ -1,1 +1,47 @@
+/* style.css */
 @import "tailwindcss";
+
+/* Effet de survol pour les boutons numériques */
+.btn.bg-\[\#4a4544\]:hover {
+  background-color: #5a5554 !important;
+  transform: scale(1.05);
+  transition: all 0.2s ease;
+}
+
+/* Effet de survol pour les boutons d'opération */
+.btn.bg-orange-400:hover {
+  background-color: #f97316 !important; /* orange-500 */
+  transform: scale(1.05);
+  transition: all 0.2s ease;
+}
+
+/* Animation de clic */
+.btn:active {
+  transform: scale(0.95);
+  transition: transform 0.1s;
+}
+
+/* Curseur pointeur pour tous les boutons */
+.btn {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Style de focus pour l'accessibilité */
+.btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5);
+}
+
+/* Animation pour les erreurs */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.error-shake {
+  animation: shake 0.5s;
+  color: #ef4444; /* text-red-500 */
+}
+
