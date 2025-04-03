@@ -15,9 +15,9 @@
       <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
         <a href="#" class="text-2xl font-bold text-orange-400">Calculatrice</a>
         <ul class="flex space-x-6">
-          <li><a href="#" class="hover:text-orange-400 transition-colors duration-200">Accueil</a></li>
-          <li><a href="#" class="hover:text-orange-400 transition-colors duration-200">À propos</a></li>
-          <li><a href="#" class="hover:text-orange-400 transition-colors duration-200">Contact</a></li>
+          <li><a href="#" class="hover:text-orange-400 transition-colors">Accueil</a></li>
+          <li><a href="#" class="hover:text-orange-400 transition-colors">À propos</a></li>
+          <li><a href="#" class="hover:text-orange-400 transition-colors">Contact</a></li>
         </ul>
       </div>
     </nav>    
@@ -26,43 +26,45 @@
       <!-- calculatrice -->
        <div class="bg-gray-800 p-5 rounded-lg shadow-lg">
         <!-- Affichage de la calculatrice -->
-          <div id="display" class="w-110 p-5 rounded-lg text-white border-1 border-gray-500">
-            <div class="flex justify-end items-center text-5xl h-20 pr-4 overflow-x-auto whitespace-nowrap">0</div>
+          <div id="display" class="w-110 p-6 rounded-lg text-white border-1 border-gray-500">
+            <div class="flex justify-end items-center text-6xl min-h-16 pr-4 transition-all duration-200 overflow-x-auto">0</div>
           </div>
           <!-- // grille des boutons -->
            <div class="flex justify-center">
               <div id="buttons" class="grid grid-cols-4 gap-8 mt-5 text-3xl">
-                <button class="btn bg-[#4a4544] hover:bg-[#5a5554] hover:scale-105 active:scale-95 transition-all duration-200 rounded-full w-16 h-16 focus:outline-none focus:ring-2 focus:ring-white/50 cursor-pointer">AC</button>
-                <button class="btn bg-[#4a4544] hover:bg-[#5a5554] hover:scale-105 active:scale-95 transition-all duration-200 rounded-full w-16 h-16 focus:outline-none focus:ring-2 focus:ring-white/50 cursor-pointer">+/-</button>
-                <button class="btn bg-[#4a4544] hover:bg-[#5a5554] hover:scale-105 active:scale-95 transition-all duration-200 rounded-full w-16 h-16 focus:outline-none focus:ring-2 focus:ring-white/50 cursor-pointer">%</button>
-                <button class="btn bg-orange-400 hover:bg-orange-500 hover:scale-105 active:scale-95 transition-all duration-200 rounded-full w-16 h-16 focus:outline-none focus:ring-2 focus:ring-white/50 cursor-pointer">÷</button>
+                <button class="btn bg-[#4a4544] hover:bg-[#5a5554] rounded-full w-16 h-16 transition-all duration-200 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-white/50">AC</button>
+                <button class="btn bg-[#4a4544] hover:bg-[#5a5554] rounded-full w-16 h-16 transition-all duration-200 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-white/50">+/-</button>
+                <button class="btn bg-[#4a4544] hover:bg-[#5a5554] rounded-full w-16 h-16 transition-all duration-200 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-white/50">%</button>
+                <button class="btn bg-orange-400 hover:bg-orange-500 rounded-full w-16 h-16 transition-all duration-200 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-white/50">÷</button>
     
-                <button class="btn bg-[#4a4544] hover:bg-[#5a5554] hover:scale-105 active:scale-95 transition-all duration-200 rounded-full w-16 h-16 focus:outline-none focus:ring-2 focus:ring-white/50 cursor-pointer">7</button>
-                <button class="btn bg-[#4a4544] hover:bg-[#5a5554] hover:scale-105 active:scale-95 transition-all duration-200 rounded-full w-16 h-16 focus:outline-none focus:ring-2 focus:ring-white/50 cursor-pointer">8</button>
-                <button class="btn bg-[#4a4544] hover:bg-[#5a5554] hover:scale-105 active:scale-95 transition-all duration-200 rounded-full w-16 h-16 focus:outline-none focus:ring-2 focus:ring-white/50 cursor-pointer">9</button>
-                <button class="btn bg-orange-400 hover:bg-orange-500 hover:scale-105 active:scale-95 transition-all duration-200 rounded-full w-16 h-16 focus:outline-none focus:ring-2 focus:ring-white/50 cursor-pointer">×</button>
+                <button class="btn bg-[#4a4544] hover:bg-[#5a5554] rounded-full w-16 h-16 transition-all duration-200 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-white/50">7</button>
+                <button class="btn bg-[#4a4544] hover:bg-[#5a5554] rounded-full w-16 h-16 transition-all duration-200 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-white/50">8</button>
+                <button class="btn bg-[#4a4544] hover:bg-[#5a5554] rounded-full w-16 h-16 transition-all duration-200 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-white/50">9</button>
+                <button class="btn bg-orange-400 hover:bg-orange-500 rounded-full w-16 h-16 transition-all duration-200 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-white/50">×</button>
     
-                <button class="btn bg-[#4a4544] hover:bg-[#5a5554] hover:scale-105 active:scale-95 transition-all duration-200 rounded-full w-16 h-16 focus:outline-none focus:ring-2 focus:ring-white/50 cursor-pointer">4</button>
-                <button class="btn bg-[#4a4544] hover:bg-[#5a5554] hover:scale-105 active:scale-95 transition-all duration-200 rounded-full w-16 h-16 focus:outline-none focus:ring-2 focus:ring-white/50 cursor-pointer">5</button>
-                <button class="btn bg-[#4a4544] hover:bg-[#5a5554] hover:scale-105 active:scale-95 transition-all duration-200 rounded-full w-16 h-16 focus:outline-none focus:ring-2 focus:ring-white/50 cursor-pointer">6</button>
-                <button class="btn bg-orange-400 hover:bg-orange-500 hover:scale-105 active:scale-95 transition-all duration-200 rounded-full w-16 h-16 focus:outline-none focus:ring-2 focus:ring-white/50 cursor-pointer">-</button>
+                <button class="btn bg-[#4a4544] hover:bg-[#5a5554] rounded-full w-16 h-16 transition-all duration-200 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-white/50">4</button>
+                <button class="btn bg-[#4a4544] hover:bg-[#5a5554] rounded-full w-16 h-16 transition-all duration-200 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-white/50">5</button>
+                <button class="btn bg-[#4a4544] hover:bg-[#5a5554] rounded-full w-16 h-16 transition-all duration-200 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-white/50">6</button>
+                <button class="btn bg-orange-400 hover:bg-orange-500 rounded-full w-16 h-16 transition-all duration-200 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-white/50">-</button>
     
-                <button class="btn bg-[#4a4544] hover:bg-[#5a5554] hover:scale-105 active:scale-95 transition-all duration-200 rounded-full w-16 h-16 focus:outline-none focus:ring-2 focus:ring-white/50 cursor-pointer">1</button>
-                <button class="btn bg-[#4a4544] hover:bg-[#5a5554] hover:scale-105 active:scale-95 transition-all duration-200 rounded-full w-16 h-16 focus:outline-none focus:ring-2 focus:ring-white/50 cursor-pointer">2</button>
-                <button class="btn bg-[#4a4544] hover:bg-[#5a5554] hover:scale-105 active:scale-95 transition-all duration-200 rounded-full w-16 h-16 focus:outline-none focus:ring-2 focus:ring-white/50 cursor-pointer">3</button>
-                <button class="btn bg-orange-400 hover:bg-orange-500 hover:scale-105 active:scale-95 transition-all duration-200 rounded-full w-16 h-16 focus:outline-none focus:ring-2 focus:ring-white/50 cursor-pointer">+</button>
+                <button class="btn bg-[#4a4544] hover:bg-[#5a5554] rounded-full w-16 h-16 transition-all duration-200 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-white/50">1</button>
+                <button class="btn bg-[#4a4544] hover:bg-[#5a5554] rounded-full w-16 h-16 transition-all duration-200 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-white/50">2</button>
+                <button class="btn bg-[#4a4544] hover:bg-[#5a5554] rounded-full w-16 h-16 transition-all duration-200 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-white/50">3</button>
+                <button class="btn bg-orange-400 hover:bg-orange-500 rounded-full w-16 h-16 transition-all duration-200 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-white/50">+</button>
     
-                <button class="btn bg-[#4a4544] hover:bg-[#5a5554] hover:scale-105 active:scale-95 transition-all duration-200 rounded-full w-16 h-16 focus:outline-none focus:ring-2 focus:ring-white/50 cursor-pointer flex justify-center items-center">
+                <button class="btn bg-[#4a4544] hover:bg-[#5a5554] rounded-full w-16 h-16 flex justify-center items-center transition-all duration-200 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-white/50">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-white">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75h7.5m-7.5 4.5h7.5m-7.5 4.5h7.5m-9 5.25h10.5a2.25 2.25 0 002.25-2.25V5.25A2.25 2.25 0 0016.5 3H7.5A2.25 2.25 0 005.25 5.25v14.25a2.25 2.25 0 002.25 2.25z"/>
                   </svg>
                 </button>            
-                <button class="btn bg-[#4a4544] hover:bg-[#5a5554] hover:scale-105 active:scale-95 transition-all duration-200 rounded-full w-16 h-16 focus:outline-none focus:ring-2 focus:ring-white/50 cursor-pointer">0</button>
-                <button class="btn bg-[#4a4544] hover:bg-[#5a5554] hover:scale-105 active:scale-95 transition-all duration-200 rounded-full w-16 h-16 focus:outline-none focus:ring-2 focus:ring-white/50 cursor-pointer">,</button>
-                <button class="btn bg-orange-400 hover:bg-orange-500 hover:scale-105 active:scale-95 transition-all duration-200 rounded-full w-16 h-16 focus:outline-none focus:ring-2 focus:ring-white/50 cursor-pointer">=</button>
+                <button class="btn bg-[#4a4544] hover:bg-[#5a5554] rounded-full w-16 h-16 transition-all duration-200 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-white/50">0</button>
+                <button class="btn bg-[#4a4544] hover:bg-[#5a5554] rounded-full w-16 h-16 transition-all duration-200 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-white/50">,</button>
+                <button class="btn bg-orange-400 hover:bg-orange-500 rounded-full w-16 h-16 transition-all duration-200 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-white/50">=</button>
               </div>
            </div>
+
           </div>
+
     </div>
   </body>
 </html>

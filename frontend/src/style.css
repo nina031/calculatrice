@@ -1,20 +1,38 @@
+/* style.css */
 @import "tailwindcss";
 
-/* Styles pour la barre de défilement */
+/* Animation de secousse pour les erreurs - seule animation personnalisée nécessaire */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+/* Ajout de la classe utilitaire pour l'animation de secousse */
+.animate-shake {
+  animation: shake 0.5s;
+}
+
+/* Style personnalisé pour la barre de défilement */
 #display div::-webkit-scrollbar {
-  height: 8px; /* Hauteur de la barre de défilement */
+  height: 6px; /* Hauteur de la barre de défilement horizontale */
 }
 
 #display div::-webkit-scrollbar-track {
-  background: #1f2937; /* Équivalent à bg-gray-800 */
+  background: #2d3748; /* couleur de fond (gray-800) */
+  border-radius: 3px;
 }
 
 #display div::-webkit-scrollbar-thumb {
-  background: rgba(156, 163, 175, 0.6); /* Gris transparent (équivalent à gray-400 avec 60% d'opacité) */
-  border-radius: 2px;
+  background: rgba(156, 163, 175, 0.6); /* gris-400 avec transparence */
+  border-radius: 3px;
 }
 
-/* Défilement fluide */
+#display div::-webkit-scrollbar-thumb:hover {
+  background: rgba(156, 163, 175, 0.8); /* gris-400 plus opaque au survol */
+}
+
+/* Ajustement du padding pour faire de la place à la barre de défilement */
 #display div {
-  scroll-behavior: smooth;
+  padding-bottom: 8px;
 }

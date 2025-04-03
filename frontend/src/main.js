@@ -9,11 +9,81 @@ const acButton = document.querySelector('.btn:nth-child(1)'); // Le premier bout
 // Variable pour stocker l'état de la calculatrice
 let currentExpression = '0';
 
+// Fonction pour tronquer les grands nombres tout en préservant la notation scientifique
+const truncateNumber = (numberString) => {
+  // Si c'est déjà en notation scientifique, on la préserve
+  if (numberString.includes('e')) {
+    const [mantisse, exposant] = numberString.split('e');
+    // On arrondit la mantisse à 4 chiffres significatifs maximum
+    const truncatedMantisse = parseFloat(mantisse).toFixed(4);
+    return `${truncatedMantisse}e${exposant}`;
+  }
+  
+  // Pour les nombres décimaux longs
+  if (numberString.includes('.')) {
+    const [entier, decimal] = numberString.split('.');
+    
+    // Si la partie entière est déjà longue
+    if (entier.length > 10) {
+      return parseFloat(numberString).toExponential(4);
+    }
+    
+    // Sinon, on tronque la partie décimale
+    const maxDecimalLength = Math.max(0, 10 - entier.length);
+    return `${entier}.${decimal.substring(0, maxDecimalLength)}`;
+  }
+  
+  // Pour les entiers très longs
+  if (numberString.length > 10) {
+    return parseFloat(numberString).toExponential(4);
+  }
+  
+  return numberString;
+};
+
+// Fonction pour ajuster la taille du texte selon sa longueur
+const adjustFontSize = () => {
+  const displayText = display.textContent;
+  const length = displayText.length;
+  
+  // Retirer toutes les classes de taille
+  display.classList.remove('text-6xl', 'text-5xl', 'text-4xl', 'text-3xl', 'text-2xl', 'text-xl', 'text-lg', 'text-base');
+  
+  // Appliquer la classe appropriée
+  if (length <= 8) {
+    display.classList.add('text-6xl');
+  } else if (length <= 10) {
+    display.classList.add('text-5xl');
+  } else if (length <= 12) {
+    display.classList.add('text-4xl');
+  } else if (length <= 16) {
+    display.classList.add('text-3xl');
+  } else if (length <= 20) {
+    display.classList.add('text-2xl');
+  } else if (length <= 25) {
+    display.classList.add('text-xl');
+  } else if (length <= 30) {
+    display.classList.add('text-lg');
+  } else {
+    display.classList.add('text-base');
+  }
+};
+
 // Fonction pour mettre à jour l'affichage
 const updateDisplay = () => {
-  display.textContent = currentExpression;
-  // Faire défiler automatiquement vers la droite pour voir la fin de l'expression
-  display.scrollLeft = display.scrollWidth;
+  let displayValue = currentExpression;
+  
+  // Si c'est un nombre (pas une expression en cours de saisie avec des opérateurs)
+  if (!isNaN(parseFloat(displayValue)) && isFinite(displayValue)) {
+    // Tronquer le nombre si nécessaire
+    displayValue = truncateNumber(displayValue);
+  }
+  
+  // Mettre à jour l'affichage
+  display.textContent = displayValue;
+  
+  // Ajuster la taille de la police selon la longueur
+  adjustFontSize();
 };
 
 // Initialiser l'affichage
@@ -31,32 +101,6 @@ function replaceLastNumber(expression, newValue) {
   return expression.replace(/(\d+\.?\d*)$/, newValue);
 }
 
-// Fonction pour animer un effet de secouement avec Tailwind
-const shakeElement = async (element) => {
-  // Sauvegarder la classe de transition actuelle
-  const originalTransition = element.style.transition;
-  
-  // Désactiver temporairement les transitions pour un mouvement immédiat
-  element.style.transition = 'none';
-  
-  // Séquence d'animation de secouement
-  for (let i = 0; i < 6; i++) {
-    if (i % 2 === 0) {
-      element.classList.add('translate-x-2');
-      element.classList.remove('-translate-x-2');
-    } else {
-      element.classList.add('-translate-x-2');
-      element.classList.remove('translate-x-2');
-    }
-    // Attendre un court délai entre chaque mouvement
-    await new Promise(resolve => setTimeout(resolve, 50));
-  }
-  
-  // Restaurer la position et les transitions
-  element.classList.remove('translate-x-2', '-translate-x-2');
-  element.style.transition = originalTransition;
-};
-
 // Fonction pour gérer les erreurs de calcul
 const handleCalculationError = (errorMessage) => {
   console.error("Erreur de calcul:", errorMessage);
@@ -66,17 +110,12 @@ const handleCalculationError = (errorMessage) => {
   // Changer le bouton en AC
   acButton.textContent = 'AC';
   
-  // Ajouter une classe de couleur rouge pour l'erreur
-  display.classList.add('text-red-500');
+  // Utiliser les classes Tailwind pour l'animation de secousse
+  display.classList.add('text-red-500', 'animate-shake');
   
-  // Animer le secouement avec la fonction Tailwind
-  shakeElement(display)
-    .then(() => {
-      // Retirer la classe de couleur rouge après l'animation
-      setTimeout(() => {
-        display.classList.remove('text-red-500');
-      }, 800);
-    });
+  setTimeout(() => {
+    display.classList.remove('text-red-500', 'animate-shake');
+  }, 500);
 };
 
 // Fonction pour calculer le résultat via l'API
@@ -170,9 +209,16 @@ const handleButtonClick = value => {
   else {
     currentExpression += value;
     acButton.textContent = '⌫';
+    
+    // Indication visuelle uniquement (sans blocage) quand l'expression devient longue
+    if (currentExpression.length >= 20) {
+      display.classList.add('text-amber-400');
+      setTimeout(() => {
+        display.classList.remove('text-amber-400');
+      }, 300);
+    }
   }
   
   // Mettre à jour l'affichage
   updateDisplay();
-
 };
