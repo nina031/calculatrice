@@ -1,10 +1,10 @@
 // Import CSS
 import './style.css'
 
-
+// Define constants for calculator actions
 const ACTIONS = {
   AC: 'AC',
-  BACKSPACE: '⌫',    // Rename from CLEAR to BACKSPACE for clarity
+  BACKSPACE: '⌫',    // Backspace button
   EQUALS: '=',
   TOGGLE_SIGN: '+/-',
   PERCENT: '%'
@@ -17,7 +17,7 @@ const buttons = document.querySelectorAll('.btn');
 // Variable to store calculator state
 let currentExpression = '0';
 
-// Optimized function to format numbers
+// Format numbers for display with appropriate precision
 const formatNumber = (number) => {
   // Convert to number for processing
   const num = typeof number === 'string' ? parseFloat(number) : number;
@@ -54,7 +54,7 @@ const formatNumber = (number) => {
   return parseFloat(num.toFixed(maxDecimalLength)).toString();
 };
 
-// Function to adjust text size based on its length
+// Adjust text size based on content length
 const adjustFontSize = () => {
   const displayText = display.textContent;
   const length = displayText.length;
@@ -62,7 +62,7 @@ const adjustFontSize = () => {
   // Remove all size classes
   display.classList.remove('text-6xl', 'text-5xl', 'text-4xl', 'text-3xl', 'text-2xl', 'text-xl', 'text-lg', 'text-base');
   
-  // Apply appropriate class
+  // Apply appropriate class based on text length
   if (length <= 8) {
     display.classList.add('text-6xl');
   } else if (length <= 10) {
@@ -82,7 +82,7 @@ const adjustFontSize = () => {
   }
 };
 
-// Function to update the display
+// Update the display with current expression
 const updateDisplay = () => {
   let displayValue = currentExpression;
   
@@ -99,19 +99,18 @@ const updateDisplay = () => {
   adjustFontSize();
 };
 
-// Helper functions for expression management
+// Extract the last number from an expression
 function extractLastNumber(expression) {
-  // Extract the last number from the expression
   const match = expression.match(/(-?\d+\.?\d*)$/);
   return match ? parseFloat(match[0]) : null;
 }
 
+// Replace the last number in an expression with a new value
 function replaceLastNumber(expression, newValue) {
-  // Replace the last number with the new value
   return expression.replace(/(-?\d+\.?\d*)$/, formatNumber(newValue));
 }
 
-// Function to toggle the sign of a number
+// Toggle the sign of a number in the expression
 const toggleNumberSign = (expression) => {
   // If the expression is just "0", do nothing
   if (expression === '0') return expression;
@@ -143,7 +142,7 @@ const toggleNumberSign = (expression) => {
   return expression;
 };
 
-// Prepare expression for the API
+// Prepare expression for the API by replacing display symbols with operators
 const prepareExpressionForAPI = (expression) => {
   return expression
     .replace(/×/g, '*')  // Replace × with *
@@ -151,7 +150,7 @@ const prepareExpressionForAPI = (expression) => {
     .replace(/÷/g, '/'); // Replace ÷ with /
 };
 
-// Function to handle calculation errors
+// Handle calculation errors with visual feedback
 const handleCalculationError = (errorMessage) => {
   console.error("Calculation error:", errorMessage);
   currentExpression = 'Error';
@@ -165,12 +164,15 @@ const handleCalculationError = (errorMessage) => {
   }, 500);
 };
 
-// Function to calculate the result via the API
+// Calculate the result via the API
 const calculateResult = () => {
   const expressionForAPI = prepareExpressionForAPI(currentExpression);
   console.log("Expression sent to API:", expressionForAPI);
   
-  fetch('http://127.0.0.1:5000/calculate', {
+  // Use API URL from environment variables
+  const apiUrl = import.meta.env.VITE_API_URL;
+  
+  fetch(apiUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ expression: expressionForAPI })
@@ -196,7 +198,7 @@ const calculateResult = () => {
   });
 };
 
-// Function to handle button clicks
+// Handle button clicks
 const handleButtonClick = (value) => {
   console.log("Button clicked:", value);
   
@@ -206,12 +208,12 @@ const handleButtonClick = (value) => {
       break;
       
     case ACTIONS.AC:
-      // Simple function for AC: reset the expression
+      // Reset the expression
       currentExpression = '0';
       break;
       
     case ACTIONS.BACKSPACE:
-      // Simple function to delete one character
+      // Delete one character
       currentExpression = currentExpression.length === 1 ? '0' : currentExpression.slice(0, -1);
       break;
       
@@ -248,7 +250,7 @@ const handleButtonClick = (value) => {
   updateDisplay();
 };
 
-// Add an event listener to each button
+// Add event listener to each button
 buttons.forEach(button => {
   button.addEventListener('click', () => {
     const value = button.textContent;
