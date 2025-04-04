@@ -1,55 +1,76 @@
-// Importation du CSS
+// Import CSS
 import './style.css'
 
-// Sélectionner les éléments du DOM
-const display = document.querySelector('#display div');
-const buttons = document.querySelectorAll('.btn');
-const acButton = document.querySelector('.btn:nth-child(1)'); // Le premier bouton est AC
-
-// Variable pour stocker l'état de la calculatrice
-let currentExpression = '0';
-
-// Fonction pour tronquer les grands nombres tout en préservant la notation scientifique
-const truncateNumber = (numberString) => {
-  // Si c'est déjà en notation scientifique, on la préserve
-  if (numberString.includes('e')) {
-    const [mantisse, exposant] = numberString.split('e');
-    // On arrondit la mantisse à 4 chiffres significatifs maximum
-    const truncatedMantisse = parseFloat(mantisse).toFixed(4);
-    return `${truncatedMantisse}e${exposant}`;
-  }
-  
-  // Pour les nombres décimaux longs
-  if (numberString.includes('.')) {
-    const [entier, decimal] = numberString.split('.');
-    
-    // Si la partie entière est déjà longue
-    if (entier.length > 10) {
-      return parseFloat(numberString).toExponential(4);
-    }
-    
-    // Sinon, on tronque la partie décimale
-    const maxDecimalLength = Math.max(0, 10 - entier.length);
-    return `${entier}.${decimal.substring(0, maxDecimalLength)}`;
-  }
-  
-  // Pour les entiers très longs
-  if (numberString.length > 10) {
-    return parseFloat(numberString).toExponential(4);
-  }
-  
-  return numberString;
+// Constants for operators and special actions
+const OPERATORS = {
+  '×': '*',
+  '÷': '/',
+  '+': '+',
+  '-': '-'
 };
 
-// Fonction pour ajuster la taille du texte selon sa longueur
+const ACTIONS = {
+  AC: 'AC',
+  CLEAR: '⌫',
+  EQUALS: '=',
+  TOGGLE_SIGN: '+/-',
+  PERCENT: '%'
+};
+
+// Select DOM elements
+const display = document.querySelector('#display div');
+const buttons = document.querySelectorAll('.btn');
+const acButton = document.querySelector('.btn:nth-child(1)'); // First button is AC
+
+// Variable to store calculator state
+let currentExpression = '0';
+
+// Optimized function to format numbers
+const formatNumber = (number) => {
+  // Convert to number for processing
+  const num = typeof number === 'string' ? parseFloat(number) : number;
+  
+  // If it's an integer, no need for decimals
+  if (Number.isInteger(num)) {
+    // If the number is too large, use scientific notation
+    if (Math.abs(num) >= 1e10) {
+      return num.toExponential(4);
+    }
+    return num.toString();
+  }
+  
+  // For decimal numbers
+  const numStr = num.toString();
+  
+  // If already in scientific notation
+  if (numStr.includes('e')) {
+    const [mantissa, exponent] = numStr.split('e');
+    const formattedMantissa = parseFloat(mantissa).toFixed(4);
+    return `${formattedMantissa}e${exponent}`;
+  }
+  
+  // For normal decimal numbers
+  const [integer, decimal] = numStr.split('.');
+  
+  // If the integer part is already long
+  if (integer.length > 10) {
+    return num.toExponential(4);
+  }
+  
+  // Limit decimals based on integer part length
+  const maxDecimalLength = Math.max(0, 10 - integer.length);
+  return parseFloat(num.toFixed(maxDecimalLength)).toString();
+};
+
+// Function to adjust text size based on its length
 const adjustFontSize = () => {
   const displayText = display.textContent;
   const length = displayText.length;
   
-  // Retirer toutes les classes de taille
+  // Remove all size classes
   display.classList.remove('text-6xl', 'text-5xl', 'text-4xl', 'text-3xl', 'text-2xl', 'text-xl', 'text-lg', 'text-base');
   
-  // Appliquer la classe appropriée
+  // Apply appropriate class
   if (length <= 8) {
     display.classList.add('text-6xl');
   } else if (length <= 10) {
@@ -69,48 +90,74 @@ const adjustFontSize = () => {
   }
 };
 
-// Fonction pour mettre à jour l'affichage
+// Function to update the display
 const updateDisplay = () => {
   let displayValue = currentExpression;
   
-  // Si c'est un nombre (pas une expression en cours de saisie avec des opérateurs)
+  // If it's a number (not an expression being entered with operators)
   if (!isNaN(parseFloat(displayValue)) && isFinite(displayValue)) {
-    // Tronquer le nombre si nécessaire
-    displayValue = truncateNumber(displayValue);
+    // Format the number if needed
+    displayValue = formatNumber(displayValue);
   }
   
-  // Mettre à jour l'affichage
+  // Update the display
   display.textContent = displayValue;
   
-  // Ajuster la taille de la police selon la longueur
+  // Adjust font size based on length
   adjustFontSize();
 };
 
-// Initialiser l'affichage
-updateDisplay();
-
-// Fonctions auxiliaires pour la gestion des pourcentages
+// Helper functions for expression management
 function extractLastNumber(expression) {
-  // Extraire le dernier nombre de l'expression
-  const match = expression.match(/(\d+\.?\d*)$/);
+  // Extract the last number from the expression
+  const match = expression.match(/(-?\d+\.?\d*)$/);
   return match ? parseFloat(match[0]) : null;
 }
 
 function replaceLastNumber(expression, newValue) {
-  // Remplacer le dernier nombre par la nouvelle valeur
-  return expression.replace(/(\d+\.?\d*)$/, newValue);
+  // Replace the last number with the new value
+  return expression.replace(/(-?\d+\.?\d*)$/, formatNumber(newValue));
 }
 
-// Fonction pour gérer les erreurs de calcul
+// Function to toggle the sign of a number
+const toggleNumberSign = (expression) => {
+  // If the expression is just "0", do nothing
+  if (expression === '0') return expression;
+  
+  // Find the last number in the expression
+  const lastNumberRegex = /(-?\d+\.?\d*)$/;
+  const match = expression.match(lastNumberRegex);
+  
+  if (match) {
+    const lastNumber = match[0];
+    const negatedNumber = lastNumber.startsWith('-') 
+      ? lastNumber.substring(1) 
+      : `-${lastNumber}`;
+      
+    // Replace the last number with its sign-inverted version
+    return expression.replace(lastNumberRegex, negatedNumber);
+  }
+  
+  return expression;
+};
+
+// Prepare expression for the API
+const prepareExpressionForAPI = (expression) => {
+  return expression
+    .replace(/×/g, '*')  // Replace × with *
+    .replace(/÷/g, '/'); // Replace ÷ with /
+};
+
+// Function to handle calculation errors
 const handleCalculationError = (errorMessage) => {
-  console.error("Erreur de calcul:", errorMessage);
-  currentExpression = 'Erreur';
+  console.error("Calculation error:", errorMessage);
+  currentExpression = 'Error';
   updateDisplay();
   
-  // Changer le bouton en AC
-  acButton.textContent = 'AC';
+  // Change button to AC
+  acButton.textContent = ACTIONS.AC;
   
-  // Utiliser les classes Tailwind pour l'animation de secousse
+  // Use Tailwind classes for shake animation
   display.classList.add('text-red-500', 'animate-shake');
   
   setTimeout(() => {
@@ -118,45 +165,91 @@ const handleCalculationError = (errorMessage) => {
   }, 500);
 };
 
-// Fonction pour calculer le résultat via l'API
+// Function to calculate the result via the API
 const calculateResult = () => {
-  // Préparer l'expression pour l'envoyer à l'API
-  let expressionForAPI = currentExpression
-    .replace(/×/g, '*')  // Remplacer × par *
-    .replace(/÷/g, '/'); // Remplacer ÷ par /
-  
-  console.log("Expression envoyée à l'API:", expressionForAPI);
+  const expressionForAPI = prepareExpressionForAPI(currentExpression);
+  console.log("Expression sent to API:", expressionForAPI);
   
   fetch('http://127.0.0.1:5000/calculate', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ expression: expressionForAPI })
   })
   .then(response => {
     if (!response.ok) {
-      throw new Error(`Erreur HTTP: ${response.status}`);
+      throw new Error(`HTTP Error: ${response.status}`);
     }
     return response.json();
   })
   .then(data => {
-    console.log("Réponse de l'API:", data);
+    console.log("API Response:", data);
     
     if (data.error) {
-      handleCalculationError(data.error);
-    } else {
-      currentExpression = data.result.toString();
-      updateDisplay();
-      acButton.textContent = 'AC';
+      throw new Error(data.error);
     }
+    
+    currentExpression = formatNumber(data.result);
+    updateDisplay();
+    acButton.textContent = ACTIONS.AC;
   })
   .catch(error => {
     handleCalculationError(error.message);
   });
 };
 
-// Ajouter un écouteur d'événements à chaque bouton
+// Function to handle button clicks
+const handleButtonClick = (value) => {
+  console.log("Button clicked:", value);
+  
+  switch (value) {
+    case ACTIONS.EQUALS:
+      calculateResult();
+      break;
+      
+    case ACTIONS.AC:
+      currentExpression = '0';
+      break;
+      
+    case ACTIONS.CLEAR:
+      currentExpression = currentExpression.length === 1 ? '0' : currentExpression.slice(0, -1);
+      break;
+      
+    case ACTIONS.TOGGLE_SIGN:
+      currentExpression = toggleNumberSign(currentExpression);
+      break;
+      
+    case ACTIONS.PERCENT:
+      const lastNumber = extractLastNumber(currentExpression);
+      if (lastNumber) {
+        const percentValue = lastNumber / 100;
+        currentExpression = replaceLastNumber(currentExpression, percentValue);
+      }
+      break;
+      
+    default:
+      // For digits and operators
+      if (currentExpression === '0') {
+        currentExpression = value;
+        acButton.textContent = ACTIONS.CLEAR;
+      } else {
+        currentExpression += value;
+        acButton.textContent = ACTIONS.CLEAR;
+        
+        // Visual indication for long expressions
+        if (currentExpression.length >= 20) {
+          display.classList.add('text-amber-400');
+          setTimeout(() => {
+            display.classList.remove('text-amber-400');
+          }, 300);
+        }
+      }
+  }
+  
+  // Update the display
+  updateDisplay();
+};
+
+// Add an event listener to each button
 buttons.forEach(button => {
   button.addEventListener('click', () => {
     const value = button.textContent;
@@ -164,61 +257,5 @@ buttons.forEach(button => {
   });
 });
 
-// Fonction pour gérer les clics sur les boutons
-const handleButtonClick = value => {
-  console.log("Bouton cliqué:", value);
-  
-  // Si l'utilisateur clique sur "="
-  if (value === '=') {
-    calculateResult();
-  }
-  // Si l'utilisateur clique sur "AC" (All Clear), réinitialiser la calculatrice
-  else if (value === 'AC') {
-    currentExpression = '0';
-  }
-  else if (value === '⌫') {
-    if (currentExpression.length === 1) {
-      currentExpression = '0';
-    }
-    else {
-      currentExpression = currentExpression.slice(0, -1);
-    }
-  }
-  else if (value === '+/-') {
-    const lastChar = currentExpression.slice(-1);
-    // Vérifier si le dernier caractère est un chiffre
-    if (/[0-9]/.test(lastChar)) {
-      currentExpression = currentExpression.slice(0, -1) + `(-${lastChar})`;
-    }
-    // Si ce n'est pas un chiffre, ne rien faire
-  }
-  else if (value === '%') {
-    const lastNumber = extractLastNumber(currentExpression);
-    if (lastNumber) {
-      // Remplacer le dernier nombre par sa valeur en pourcentage
-      const percentValue = lastNumber / 100;
-      currentExpression = replaceLastNumber(currentExpression, percentValue);
-    }
-  }
-  // Si l'affichage montre juste "0", remplacer par la nouvelle valeur
-  else if (currentExpression === '0') {
-    currentExpression = value;
-    acButton.textContent = '⌫';
-  }
-  // Sinon, ajouter la valeur à l'expression existante
-  else {
-    currentExpression += value;
-    acButton.textContent = '⌫';
-    
-    // Indication visuelle uniquement (sans blocage) quand l'expression devient longue
-    if (currentExpression.length >= 20) {
-      display.classList.add('text-amber-400');
-      setTimeout(() => {
-        display.classList.remove('text-amber-400');
-      }, 300);
-    }
-  }
-  
-  // Mettre à jour l'affichage
-  updateDisplay();
-};
+// Initialize the display
+updateDisplay();
