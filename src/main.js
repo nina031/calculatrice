@@ -166,9 +166,7 @@ const handleCalculationError = (errorMessage) => {
 
 // Calculate the result via the API
 const calculateResult = () => {
-  const expressionForAPI = prepareExpressionForAPI(currentExpression);
-  console.log("Expression sent to API:", expressionForAPI);
-  
+  const expressionForAPI = prepareExpressionForAPI(currentExpression);  
   // Use API URL from environment variables
   const apiUrl = import.meta.env.VITE_API_URL;
   
@@ -184,7 +182,6 @@ const calculateResult = () => {
     return response.json();
   })
   .then(data => {
-    console.log("API Response:", data);
     
     if (data.error) {
       throw new Error(data.error);
@@ -200,7 +197,6 @@ const calculateResult = () => {
 
 // Handle button clicks
 const handleButtonClick = (value) => {
-  console.log("Button clicked:", value);
   
   switch (value) {
     case ACTIONS.EQUALS:
