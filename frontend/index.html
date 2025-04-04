@@ -3,16 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <link href="/src/styles.css" rel="stylesheet">
+    <link href="/src/style.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Calculator</title>
   </head>
-  <body class="bg-gray-700 text-white">
+  <body class="bg-gray-700 text-white flex flex-col h-screen">
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
 
     <!-- Navigation -->
-    <nav class="bg-gray-800 text-white w-full fixed top-0 left-0 shadow-lg z-10">
+    <nav class="bg-gray-800 text-white w-full shadow-lg z-10">
       <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
         <a href="#" class="text-2xl font-bold text-orange-400">Calculator</a>
         <ul class="flex space-x-6">
@@ -24,7 +24,7 @@
     </nav>    
 
     <!-- Main container -->
-    <div class="flex justify-center items-center min-h-screen pt-20 pb-8 px-4">
+    <main class="flex-grow flex justify-center items-center">
       <!-- Calculator -->
       <div class="bg-gray-800 p-6 rounded-lg shadow-xl max-w-md w-full">
         <!-- Display screen -->
@@ -67,10 +67,10 @@
           </div>
         </div>
       </div>
-    </div>
+    </main>
     
     <!-- Footer -->
-    <footer class="bg-gray-800 text-gray-400 text-center py-4">
+    <footer class="bg-gray-800 text-gray-400 text-center py-3">
       <p class="text-sm">© 2025 Calculator - All rights reserved</p>
     </footer>
   </body>
