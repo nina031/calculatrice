@@ -1,13 +1,6 @@
 // Import CSS
 import './style.css'
 
-// Constants for operators and special actions
-const OPERATORS = {
-  '×': '*',
-  '÷': '/',
-  '+': '+',
-  '-': '-'
-};
 
 const ACTIONS = {
   AC: 'AC',
@@ -123,18 +116,28 @@ const toggleNumberSign = (expression) => {
   // If the expression is just "0", do nothing
   if (expression === '0') return expression;
   
+  // If the entire expression is a number, toggle its sign
+  if (!isNaN(parseFloat(expression)) && isFinite(expression)) {
+    const number = parseFloat(expression);
+    if (number > 0) {
+      return `(-${number})`;
+    } else if (number < 0) {
+      return Math.abs(number).toString();
+    }
+    return expression;
+  }
+  
   // Find the last number in the expression
   const lastNumberRegex = /(-?\d+\.?\d*)$/;
   const match = expression.match(lastNumberRegex);
   
   if (match) {
     const lastNumber = match[0];
-    const negatedNumber = lastNumber.startsWith('-') 
-      ? lastNumber.substring(1) 
-      : `-${lastNumber}`;
-      
-    // Replace the last number with its sign-inverted version
-    return expression.replace(lastNumberRegex, negatedNumber);
+    if (lastNumber.startsWith('-')) {
+      return expression.replace(lastNumberRegex, lastNumber.substring(1));
+    } else {
+      return expression.replace(lastNumberRegex, `(-${lastNumber})`);
+    }
   }
   
   return expression;
@@ -144,6 +147,7 @@ const toggleNumberSign = (expression) => {
 const prepareExpressionForAPI = (expression) => {
   return expression
     .replace(/×/g, '*')  // Replace × with *
+    .replace(/,/g, '.') // Replace , with .
     .replace(/÷/g, '/'); // Replace ÷ with /
 };
 
