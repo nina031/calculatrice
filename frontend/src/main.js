@@ -11,7 +11,7 @@ const OPERATORS = {
 
 const ACTIONS = {
   AC: 'AC',
-  CLEAR: '⌫',
+  BACKSPACE: '⌫',    // Rename from CLEAR to BACKSPACE for clarity
   EQUALS: '=',
   TOGGLE_SIGN: '+/-',
   PERCENT: '%'
@@ -20,7 +20,6 @@ const ACTIONS = {
 // Select DOM elements
 const display = document.querySelector('#display div');
 const buttons = document.querySelectorAll('.btn');
-const acButton = document.querySelector('.btn:nth-child(1)'); // First button is AC
 
 // Variable to store calculator state
 let currentExpression = '0';
@@ -154,9 +153,6 @@ const handleCalculationError = (errorMessage) => {
   currentExpression = 'Error';
   updateDisplay();
   
-  // Change button to AC
-  acButton.textContent = ACTIONS.AC;
-  
   // Use Tailwind classes for shake animation
   display.classList.add('text-red-500', 'animate-shake');
   
@@ -190,7 +186,6 @@ const calculateResult = () => {
     
     currentExpression = formatNumber(data.result);
     updateDisplay();
-    acButton.textContent = ACTIONS.AC;
   })
   .catch(error => {
     handleCalculationError(error.message);
@@ -207,10 +202,12 @@ const handleButtonClick = (value) => {
       break;
       
     case ACTIONS.AC:
+      // Simple function for AC: reset the expression
       currentExpression = '0';
       break;
       
-    case ACTIONS.CLEAR:
+    case ACTIONS.BACKSPACE:
+      // Simple function to delete one character
       currentExpression = currentExpression.length === 1 ? '0' : currentExpression.slice(0, -1);
       break;
       
@@ -230,10 +227,8 @@ const handleButtonClick = (value) => {
       // For digits and operators
       if (currentExpression === '0') {
         currentExpression = value;
-        acButton.textContent = ACTIONS.CLEAR;
       } else {
         currentExpression += value;
-        acButton.textContent = ACTIONS.CLEAR;
         
         // Visual indication for long expressions
         if (currentExpression.length >= 20) {
