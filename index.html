@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <link href="/src/style.css" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Calculator</title>
   </head>
   <body class="bg-gray-700 text-white flex flex-col h-screen">
@@ -13,60 +13,60 @@
 
     <!-- Navigation -->
     <nav class="bg-gray-800 text-white w-full shadow-lg z-10">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center">
-        <a href="#" class="text-xl sm:text-2xl font-bold text-orange-400">Calculator</a>
+      <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+        <a href="#" class="text-2xl font-bold text-orange-400">Calculator</a>
       </div>
     </nav>    
 
     <!-- Main container -->
-    <main class="flex-grow flex justify-center items-center p-4">
+    <main class="flex-grow flex justify-center items-center">
       <!-- Calculator -->
-      <div class="bg-gray-800 p-4 md:p-6 rounded-lg shadow-xl w-full max-w-xs md:max-w-md">
+      <div class="bg-gray-800 p-6 rounded-lg shadow-xl max-w-md w-full">
         <!-- Display screen -->
-        <div id="display" class="w-full p-3 md:p-5 mb-4 rounded-lg text-white border border-gray-600 bg-gray-900">
-          <div class="flex justify-end items-center text-5xl md:text-6xl h-12 md:h-14 overflow-y-hidden" aria-live="polite">0</div>
+        <div id="display" class="w-full p-5 mb-4 rounded-lg text-white border border-gray-600 bg-gray-900">
+          <div class="flex justify-end items-center text-6xl h-14 overflow-x-auto overflow-y-hidden" aria-live="polite">0</div>
         </div>
         
         <!-- Button grid -->
         <div class="flex justify-center">
-          <div id="buttons" class="grid grid-cols-4 gap-3 md:gap-8 mt-4 md:mt-5 text-2xl md:text-3xl">
+          <div id="buttons" class="grid grid-cols-4 gap-8 mt-5 text-3xl">
             <!-- First row -->
-            <button class="btn bg-[#4a4544] rounded-full w-14 h-14 md:w-16 md:h-16 flex items-center justify-center">AC</button>
-            <button class="btn bg-[#4a4544] rounded-full w-14 h-14 md:w-16 md:h-16 flex items-center justify-center">+/-</button>
-            <button class="btn bg-[#4a4544] rounded-full w-14 h-14 md:w-16 md:h-16 flex items-center justify-center">%</button>
-            <button class="btn bg-orange-400 rounded-full w-14 h-14 md:w-16 md:h-16 flex items-center justify-center">÷</button>
+            <button class="btn bg-[#4a4544] rounded-full w-16 h-16">AC</button>
+            <button class="btn bg-[#4a4544] rounded-full w-16 h-16">+/-</button>
+            <button class="btn bg-[#4a4544] rounded-full w-16 h-16">%</button>
+            <button class="btn bg-orange-400 rounded-full w-16 h-16">÷</button>
     
             <!-- Second row -->
-            <button class="btn bg-[#4a4544] rounded-full w-14 h-14 md:w-16 md:h-16 flex items-center justify-center">7</button>
-            <button class="btn bg-[#4a4544] rounded-full w-14 h-14 md:w-16 md:h-16 flex items-center justify-center">8</button>
-            <button class="btn bg-[#4a4544] rounded-full w-14 h-14 md:w-16 md:h-16 flex items-center justify-center">9</button>
-            <button class="btn bg-orange-400 rounded-full w-14 h-14 md:w-16 md:h-16 flex items-center justify-center">×</button>
+            <button class="btn bg-[#4a4544] rounded-full w-16 h-16">7</button>
+            <button class="btn bg-[#4a4544] rounded-full w-16 h-16">8</button>
+            <button class="btn bg-[#4a4544] rounded-full w-16 h-16">9</button>
+            <button class="btn bg-orange-400 rounded-full w-16 h-16">×</button>
     
             <!-- Third row -->
-            <button class="btn bg-[#4a4544] rounded-full w-14 h-14 md:w-16 md:h-16 flex items-center justify-center">4</button>
-            <button class="btn bg-[#4a4544] rounded-full w-14 h-14 md:w-16 md:h-16 flex items-center justify-center">5</button>
-            <button class="btn bg-[#4a4544] rounded-full w-14 h-14 md:w-16 md:h-16 flex items-center justify-center">6</button>
-            <button class="btn bg-orange-400 rounded-full w-14 h-14 md:w-16 md:h-16 flex items-center justify-center">-</button>
+            <button class="btn bg-[#4a4544] rounded-full w-16 h-16">4</button>
+            <button class="btn bg-[#4a4544] rounded-full w-16 h-16">5</button>
+            <button class="btn bg-[#4a4544] rounded-full w-16 h-16">6</button>
+            <button class="btn bg-orange-400 rounded-full w-16 h-16">-</button>
     
             <!-- Fourth row -->
-            <button class="btn bg-[#4a4544] rounded-full w-14 h-14 md:w-16 md:h-16 flex items-center justify-center">1</button>
-            <button class="btn bg-[#4a4544] rounded-full w-14 h-14 md:w-16 md:h-16 flex items-center justify-center">2</button>
-            <button class="btn bg-[#4a4544] rounded-full w-14 h-14 md:w-16 md:h-16 flex items-center justify-center">3</button>
-            <button class="btn bg-orange-400 rounded-full w-14 h-14 md:w-16 md:h-16 flex items-center justify-center">+</button>
+            <button class="btn bg-[#4a4544] rounded-full w-16 h-16">1</button>
+            <button class="btn bg-[#4a4544] rounded-full w-16 h-16">2</button>
+            <button class="btn bg-[#4a4544] rounded-full w-16 h-16">3</button>
+            <button class="btn bg-orange-400 rounded-full w-16 h-16">+</button>
     
             <!-- Fifth row -->
-            <button class="btn bg-[#4a4544] rounded-full w-14 h-14 md:w-16 md:h-16 flex items-center justify-center">⌫</button>            
-            <button class="btn bg-[#4a4544] rounded-full w-14 h-14 md:w-16 md:h-16 flex items-center justify-center">0</button>
-            <button class="btn bg-[#4a4544] rounded-full w-14 h-14 md:w-16 md:h-16 flex items-center justify-center">,</button>
-            <button class="btn bg-orange-400 rounded-full w-14 h-14 md:w-16 md:h-16 flex items-center justify-center">=</button>
+            <button class="btn bg-[#4a4544] rounded-full w-16 h-16">⌫</button>            
+            <button class="btn bg-[#4a4544] rounded-full w-16 h-16">0</button>
+            <button class="btn bg-[#4a4544] rounded-full w-16 h-16">,</button>
+            <button class="btn bg-orange-400 rounded-full w-16 h-16">=</button>
           </div>
         </div>
       </div>
     </main>
     
     <!-- Footer -->
-    <footer class="bg-gray-800 text-gray-400 text-center py-2 md:py-3">
-      <p class="text-xs md:text-sm">© 2025 Calculator - All rights reserved</p>
+    <footer class="bg-gray-800 text-gray-400 text-center py-3">
+      <p class="text-sm">© 2025 Calculator - All rights reserved</p>
     </footer>
   </body>
 </html>
